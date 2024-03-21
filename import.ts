@@ -27,6 +27,22 @@ function fromXML(xmlString: string): DynamicObject {
   return result;
 }
 
+function fromYAML(yamlString: string): DynamicObject {
+  const result: DynamicObject = {}
+  
+
+  
+  return result;
+}
+
+function fromCSV(csvString: string): DynamicObject {
+  const result: DynamicObject = {}
+  
+
+  
+  return result;
+}
+
 const exampleString = `{
     "person": {
       "name": "John Doe",
