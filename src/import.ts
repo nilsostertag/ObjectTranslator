@@ -3,7 +3,7 @@ interface DynamicObject {
 }
 
 function fromJSON(jsonString: string): DynamicObject {
-  const result: DynamicObject = {}
+  var result: DynamicObject = {}
   const json = JSON.parse(jsonString)
 
   for(const key in json) {
@@ -36,10 +36,20 @@ function fromYAML(yamlString: string): DynamicObject {
 }
 
 function fromCSV(csvString: string): DynamicObject {
-  const result: DynamicObject = {}
+  var result: DynamicObject = {}
   
+  const lines = csvString.split('\n').map(line => line.trim());
+  const headers = lines.shift()?.split(',').map(header => header.trim()) || [];
 
-  
+  const temp = lines.map(line => {
+    const values = line.split(',').map(value => value.trim());
+    const obj: DynamicObject = {}
+    headers.forEach((header, index) => {
+      obj[header] = values[index];
+    });
+    return obj;
+  });
+  result = temp
   return result;
 }
 
@@ -58,5 +68,12 @@ const exampleString = `{
     }
   }`
 
-const tsobject = fromJSON(exampleString)
-console.log(tsobject.person.name)
+const exampleCsv = `Name, Age, City
+John Doe, 30, New York
+Jane Smith, 25, Los Angeles`;
+
+const csvObject = fromCSV(exampleCsv);
+console.log(csvObject);
+
+const tsobject = fromJSON(exampleString);
+console.log(tsobject.person.name);
